@@ -10,11 +10,15 @@ import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.ExpressionStmt;
 import com.github.javaparser.ast.stmt.ReturnStmt;
 import com.github.javaparser.ast.Modifier;
+import op.Sleep;
+
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
+
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.List;
-import java.util.concurrent.locks.ReentrantLock;
+
 
 
 public class MethodScanner {
@@ -46,43 +50,34 @@ public class MethodScanner {
 
         System.out.println(cu.toString());
     }
-    private void hwTest() throws FileNotFoundException{
+    private void scanTest() throws FileNotFoundException{
         // The directory where we store the examples
         // Parse the code of an entire source file, a.k.a. a Compilation Unit
         CompilationUnit cu = StaticJavaParser.parse(new File("src/main/resources/hw.java"));
         ClassOrInterfaceDeclaration hw = cu.getClassByName("hw").get();
         List<MethodDeclaration> x= hw.getMethods();
         for(MethodDeclaration md:x){
-            md.getBody().get().addStatement(1,StaticJavaParser.parseStatement("Thread.sleep(1000);"));
-            System.out.println(md);
+            System.out.println(md.getName());
         }
     }
-    private void addLock(){
-        ReentrantLock lock=new ReentrantLock();
-        try {
-            CompilationUnit cu = StaticJavaParser.parse(new File("src/main/resources/hw.java"));
-            ClassOrInterfaceDeclaration hw = cu.getClassByName("hw").get();
 
-            List<MethodDeclaration> x= hw.getMethods();
-            String st1 = "ReentrantLock lock=new ReentrantLock();";
-            String st2 = "lock.lock();" ;
-            String st3 = "lock.unlock();//解锁";
-            for(MethodDeclaration md:x){
-                md.getBody().get()
-                        .addStatement(0,StaticJavaParser.parseStatement(st1))
-                        .addStatement(1,StaticJavaParser.parseStatement(st2))
-                        .addStatement(2,StaticJavaParser.parseStatement(st3));
-                System.out.println(md);
-            }
-        }catch (Exception ex){
-            ex.printStackTrace();
-        }
-        lock.lock();
-        lock.unlock();
-    }
     public static void main(String[] args) throws FileNotFoundException {
         MethodScanner ms=new MethodScanner();
-        ms.addLock();
+        System.out.println("——————————Scan Start——————————");
+        ms.scanTest();
+        System.out.println("——————————Scan End——————————");
+        CompilationUnit cu = StaticJavaParser.parse(new File("src/main/resources/hw.java"));
+        cu= Sleep.addSleep(cu,300);
+        FileWriter writer;
+        try {
+            writer = new FileWriter("src/main/resources/hw.java");
+            assert cu != null;
+            writer.write(cu.toString());
+            writer.flush();
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }
