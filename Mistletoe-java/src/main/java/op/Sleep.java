@@ -19,12 +19,21 @@ public class Sleep {
             ClassOrInterfaceDeclaration hw = cu.getClassByName("hw").get();
 
             List<MethodDeclaration> x= hw.getMethods();
-            String st = "Thread.sleep("+n+");//add by Mistletoe";
+            String st = "Thread.sleep("+n+");";
+
+            String st1 = "WaitForChangeThread.sleep("+n+");";
             for(MethodDeclaration md:x){
                 System.out.println(md.getName());
-                md.getBody().get()
-                        .addStatement(0,StaticJavaParser.parseStatement(st));
-                System.out.println(md);
+                if(md.getName().asString().toLowerCase().contains("connect")){
+                    md.getBody().get()
+                            .addStatement(0,StaticJavaParser.parseStatement(st));
+                    System.out.println(md);
+                }
+                if(md.getName().asString().contains("connect")){
+                    md.getBody().get()
+                            .addStatement(0,StaticJavaParser.parseStatement(st1));
+                    System.out.println(md);
+                }
             }
             return cu;
         }catch (Exception ex){

@@ -72,7 +72,10 @@ public class MethodScanner {
         try {
             writer = new FileWriter("src/main/resources/hw.java");
             assert cu != null;
-            writer.write(cu.toString());
+            String temp=cu.toString();
+            temp=temp.replace("WaitForChangeThread.sleep(300);","#ifdef A\n\t\tThread.sleep(300);\n\t\t#endif");
+            System.out.println(temp);
+            writer.write(temp);
             writer.flush();
             writer.close();
         } catch (IOException e) {
