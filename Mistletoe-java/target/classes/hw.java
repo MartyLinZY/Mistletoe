@@ -23,12 +23,14 @@ public class hw {
 
         Thread.sleep(300);
         Thread.sleep(300);
+        Thread.sleep(300);
         System.out.println(i + 1);
         System.out.println(i + 2);
         System.out.println(i + 3);
     }
 
     public void setConnectlue2(int i) {
+        Thread.sleep(300);
         Thread.sleep(300);
         Thread.sleep(300);
         System.out.println(i + 1);

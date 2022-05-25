@@ -5,6 +5,8 @@ import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.List;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -29,16 +31,22 @@ public class Sleep {
                             .addStatement(0,StaticJavaParser.parseStatement(st));
                     System.out.println(md);
                 }
-                if(md.getName().asString().contains("connect")){
+              /*  if(md.getName().asString().contains("connect")){
                     md.getBody().get()
                             .addStatement(0,StaticJavaParser.parseStatement(st1));
                     System.out.println(md);
-                }
+                }*/
             }
             return cu;
         }catch (Exception ex){
             ex.printStackTrace();
         }
         return null;
+    }
+
+    public static void main(String[] args) throws FileNotFoundException {
+        CompilationUnit cu = StaticJavaParser.parse(new File("src/main/resources/hw.java"));
+        Class<? extends CompilationUnit> test=cu.getClass();
+
     }
 }
