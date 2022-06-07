@@ -1,6 +1,8 @@
+import com.github.javaparser.JavaParser;
 import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
+import com.github.javaparser.ast.body.FieldDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.expr.AssignExpr;
 import com.github.javaparser.ast.expr.FieldAccessExpr;
@@ -17,6 +19,8 @@ import java.io.FileNotFoundException;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.instrument.ClassDefinition;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -54,11 +58,17 @@ public class MethodScanner {
         // The directory where we store the examples
         // Parse the code of an entire source file, a.k.a. a Compilation Unit
         CompilationUnit cu = StaticJavaParser.parse(new File("src/main/resources/hw.java"));
-        ClassOrInterfaceDeclaration hw = cu.getClassByName("hw").get();
-        List<MethodDeclaration> x= hw.getMethods();
-        for(MethodDeclaration md:x){
-            System.out.println(md.getName());
+        List<ClassOrInterfaceDeclaration> className= new ArrayList<ClassOrInterfaceDeclaration>();
+        className= cu.findAll(ClassOrInterfaceDeclaration.class);
+        for(ClassOrInterfaceDeclaration cd:className){
+            System.out.println(cd.getName());
+            ClassOrInterfaceDeclaration hw = cu.getClassByName(cd.getName().toString()).get();
+            List<MethodDeclaration> x= hw.getMethods();
+            for(MethodDeclaration md:x){
+                System.out.println("\t"+md.getName());
+            }
         }
+
     }
 
     public static void main(String[] args) throws FileNotFoundException {

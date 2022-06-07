@@ -20,7 +20,8 @@ public class hw {
     }
 
     public void connect(int i) {
-
+        Thread.sleep(300);
+        Thread.sleep(300);
         Thread.sleep(300);
         Thread.sleep(300);
         Thread.sleep(300);
@@ -33,6 +34,8 @@ public class hw {
         Thread.sleep(300);
         Thread.sleep(300);
         Thread.sleep(300);
+        Thread.sleep(300);
+        Thread.sleep(300);
         System.out.println(i + 1);
         System.out.println(i + 2);
         System.out.println(i + 3);
@@ -40,5 +43,17 @@ public class hw {
 
     public static void main(String[] args) {
         System.out.println("hello world");
+    }
+}
+class SecondHW{
+    public void connect(int i) {
+        Thread.sleep(300);
+        Thread.sleep(300);
+        Thread.sleep(300);
+        Thread.sleep(300);
+        Thread.sleep(300);
+        System.out.println(i + 1);
+        System.out.println(i + 2);
+        System.out.println(i + 3);
     }
 }
