@@ -22,7 +22,8 @@ import java.io.IOException;
 import java.lang.instrument.ClassDefinition;
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.Random;
+import java.util.Random.*;
 
 
 public class MethodScanner {
@@ -70,20 +71,38 @@ public class MethodScanner {
         }
 
     }
+    private String randomString(int n){
+        String str="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        Random random1=new Random();
+        //指定字符串长度，拼接字符并toString
+        StringBuffer sb=new StringBuffer();
+        for (int i = 0; i < n; i++) {
+            //获取指定长度的字符串中任意一个字符的索引值
+            int number=random1.nextInt(str.length());
+            //根据索引值获取对应的字符
+            char charAt = str.charAt(number);
+            sb.append(charAt);
+        }
+        return sb.toString();
+    }
 
     public static void main(String[] args) throws FileNotFoundException {
+        String filename="src/main/resources/hw.java";
         MethodScanner ms=new MethodScanner();
+        String str= ms.randomString(20);
+
         System.out.println("——————————Scan Start——————————");
         ms.scanTest();
         System.out.println("——————————Scan End——————————");
-        CompilationUnit cu = StaticJavaParser.parse(new File("src/main/resources/hw.java"));
-        cu= Sleep.addSleep(cu,300);
+        CompilationUnit cu = StaticJavaParser.parse(new File(filename));
+        cu= Sleep.addSleep(cu,300,str);
         FileWriter writer;
         try {
-            writer = new FileWriter("src/main/resources/hw.java");
+            writer = new FileWriter("src/main/resources/hw_new.java");
             assert cu != null;
             String temp=cu.toString();
-            temp=temp.replace("WaitForChangeThread.sleep(300);","#ifdef A\n\t\tThread.sleep(300);\n\t\t#endif");
+            temp=temp.replace("String ifdef111 = "+str+";","#ifdef A")
+                    .replace("String endif = "+str+";","#endif");
             System.out.println(temp);
             writer.write(temp);
             writer.flush();
