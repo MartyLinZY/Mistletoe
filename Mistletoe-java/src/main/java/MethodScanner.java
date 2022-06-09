@@ -90,6 +90,7 @@ public class MethodScanner {
         String filename="src/main/resources/hw.java";
         MethodScanner ms=new MethodScanner();
         String str= ms.randomString(20);
+        //todo 文本量不足的情况下该方案无问题，不知道未来代码长度会不会超过writer的极限
 
         System.out.println("——————————Scan Start——————————");
         ms.scanTest();
