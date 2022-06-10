@@ -85,6 +85,25 @@ public class MethodScanner {
         }
         return sb.toString();
     }
+    public static List<String> getFilePath(String folderPath) {
+        File folder = new File(folderPath);
+        List<String> filePathList = new ArrayList<>();
+        String rootPath;
+        if (folder.exists()) {
+            String[] fileNameList = folder.list();
+            if (null != fileNameList && fileNameList.length > 0) {
+                if (folder.getPath().endsWith(File.separator)) {
+                    rootPath = folder.getPath();
+                } else {
+                    rootPath = folder.getPath() + File.separator;
+                }
+                for (String fileName : fileNameList) {
+                    filePathList.add(rootPath + fileName);
+                }
+            }
+        }
+        return filePathList;
+    }
 
     public static void main(String[] args) throws FileNotFoundException {
         String filename="src/main/resources/hw.java";
