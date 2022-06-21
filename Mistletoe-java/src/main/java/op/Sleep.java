@@ -21,9 +21,13 @@ public class Sleep {
             ClassOrInterfaceDeclaration hw = cu.getClassByName("hw").get();
 
             List<MethodDeclaration> x= hw.getMethods();
-            String st = "Thread.sleep("+n+");";
+            String st = " try{\n" +
+                    "          Thread.sleep("+n+");  \n" +
+                    "        }\n" +
+                    "        catch (Exception ex){\n" +
+                    "            ex.printStackTrace();\n" +
+                    "        }";
 
-            String st1 = "";
             for(MethodDeclaration md:x){
                 System.out.println(md.getName());
                 if(md.getName().asString().toLowerCase().contains("connect")){

@@ -7,6 +7,7 @@ import java.io.IOException;
 public class CleanUtil {
     public static void clean(String temp){
         FileWriter writer;
+
         try {
             FileReader reader=new FileReader("src/main/resources/hw.java");
             writer = new FileWriter("src/main/resources/hw.java");

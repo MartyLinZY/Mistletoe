@@ -115,14 +115,15 @@ public class MethodScanner {
         ms.scanTest();
         System.out.println("——————————Scan End——————————");
         CompilationUnit cu = StaticJavaParser.parse(new File(filename));
-        cu= Sleep.addSleep(cu,300,str);
+        //cu= Sleep.addSleep(cu,300,str);
+        cu= Sleep.addSleep(cu,300);
         FileWriter writer;
         try {
             writer = new FileWriter("src/main/resources/hw_new.java");
             assert cu != null;
             String temp=cu.toString();
-            temp=temp.replace("String ifdef111 = "+str+";","#ifdef A")
-                    .replace("String endif = "+str+";","#endif");
+           // temp=temp.replace("String ifdef111 = "+str+";","#ifdef A")
+            //        .replace("String endif = "+str+";","#endif");
             System.out.println(temp);
             writer.write(temp);
             writer.flush();

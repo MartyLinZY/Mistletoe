@@ -20,22 +20,12 @@ public class hw {
     }
 
     public void connect(int i) {
-        try {
-            Thread.sleep(300);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
         System.out.println(i + 1);
         System.out.println(i + 2);
         System.out.println(i + 3);
     }
 
     public void setConnectlue2(int i) {
-        try {
-            Thread.sleep(300);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
         System.out.println(i + 1);
         System.out.println(i + 2);
         System.out.println(i + 3);
