@@ -7,6 +7,7 @@ import com.github.javaparser.ast.body.MethodDeclaration;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -14,38 +15,48 @@ public class Sleep {
     public static  CompilationUnit addSleep(CompilationUnit cu){
         return addSleep(cu,1000);
     }
-
+    public static  CompilationUnit addSleep(CompilationUnit cu,boolean isRandom){
+        return addSleep(cu,(int)(Math.random()*1000));
+    }
+    public static  CompilationUnit addSleep(CompilationUnit cu,int start,int end){
+        return addSleep(cu,(int)(start+Math.random()*(end-start+1)));
+    }
     public static CompilationUnit addSleep(CompilationUnit cu,int n){
         ReentrantLock lock=new ReentrantLock();
+        //todo private 会崩溃
         try {
-            ClassOrInterfaceDeclaration hw = cu.getClassByName("hw").get();
+            List<ClassOrInterfaceDeclaration> className= new ArrayList<ClassOrInterfaceDeclaration>();
+            className= cu.findAll(ClassOrInterfaceDeclaration.class);
+            for(ClassOrInterfaceDeclaration cd:className){
+                System.out.println(cd.getName());
+                ClassOrInterfaceDeclaration hw = cu.getClassByName(cd.getName().toString()).get();
+                List<MethodDeclaration> x= hw.getMethods();
+                String st = " try{\n" +
+                        "          Thread.sleep("+n+");  \n" +
+                        "        }\n" +
+                        "        catch (Exception ex){\n" +
+                        "            ex.printStackTrace();\n" +
+                        "        }";
 
-            List<MethodDeclaration> x= hw.getMethods();
-            String st = " try{\n" +
-                    "          Thread.sleep("+n+");  \n" +
-                    "        }\n" +
-                    "        catch (Exception ex){\n" +
-                    "            ex.printStackTrace();\n" +
-                    "        }";
-
-            for(MethodDeclaration md:x){
-                System.out.println(md.getName());
-                if(md.getName().asString().toLowerCase().contains("connect")){
-                    md.getBody().get()
-                            .addStatement(0,StaticJavaParser.parseStatement(st));
-                    System.out.println(md);
-                }
+                for(MethodDeclaration md:x){
+                    System.out.println(md.getName());
+                    if(md.getName().asString().toLowerCase().contains("client")){
+                        md.getBody().get()
+                                .addStatement(0,StaticJavaParser.parseStatement(st));
+                        System.out.println(md);
+                    }
               /*  if(md.getName().asString().contains("connect")){
                     md.getBody().get()
                             .addStatement(0,StaticJavaParser.parseStatement(st1));
                     System.out.println(md);
                 }*/
+                }
             }
-            return cu;
+
         }catch (Exception ex){
             ex.printStackTrace();
         }
-        return null;
+        return cu;
     }
     public static CompilationUnit addSleep(CompilationUnit cu,int n,String random){
         ReentrantLock lock=new ReentrantLock();

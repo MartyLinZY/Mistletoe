@@ -106,7 +106,11 @@ public class MethodScanner {
     }
 
     public static void main(String[] args) throws FileNotFoundException {
-        String filename="src/main/resources/hw.java";
+        List<String> strList= getFilePath("C:\\Users\\kinulin\\Downloads\\elasticsearch-8.2.2\\server\\src\\main\\java\\org\\elasticsearch\\http");
+        for(String i :strList){
+            System.out.println(i);
+        }
+        String filename="C:\\Users\\kinulin\\Downloads\\elasticsearch-8.2.2\\server\\src\\main\\java\\org\\elasticsearch\\http\\HttpClientStatsTracker.java";
         MethodScanner ms=new MethodScanner();
         String str= ms.randomString(20);
         //todo 文本量不足的情况下该方案无问题，不知道未来代码长度会不会超过writer的极限
@@ -119,7 +123,7 @@ public class MethodScanner {
         cu= Sleep.addSleep(cu,300);
         FileWriter writer;
         try {
-            writer = new FileWriter("src/main/resources/hw_new.java");
+            writer = new FileWriter("src/main/resources/HttpClientStatsTracker.java");
             assert cu != null;
             String temp=cu.toString();
            // temp=temp.replace("String ifdef111 = "+str+";","#ifdef A")
